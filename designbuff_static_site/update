@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>한샘 리하우스 디자인버프 대리점 - 포트폴리오</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand">
+      <a href="index.html" class="logo-link">
+        <img src="assets/한샘_디자인버프_로고_최종.png" alt="DesignBuff logo" class="logo"/>
+      </a>
+      <h1 class="sr-only">한샘 리하우스 디자인버프 대리점</h1>
+    </div>
+    <nav class="nav">
+      <a href="#portfolio">포트폴리오</a>
+      <a href="#designers">디자이너 소개</a>
+      <a href="#process">상담 프로세스</a>
+      <a href="#qna">Q&amp;A</a>
+      <button id="cta" class="btn">상담신청</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="slideshow">
+      <div class="slide" style="background-image:url('assets/역촌_하늘애아파트_1501호_(2).jpg')"></div>
+      <div class="slide" style="background-image:url('assets/역촌_하늘애아파트_1501호_(3).jpg')"></div>
+      <div class="overlay">
+        <h2>한샘 리하우스 디자인버프 대리점</h2>
+        <p>감성적인, 밝은 톤의 인테리어 포트폴리오</p>
+        <button id="hero-cta" class="btn">상담신청</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="portfolio" class="section">
+    <div class="wrap">
+      <h3>시공사례</h3>
+      <p class="lead">아파트 / 평형별로 정리된 시공사례입니다.</p>
+      <div class="filters">
+        <button data-filter="all" class="active">전체</button>
+        <button data-filter="20">20py</button>
+        <button data-filter="30">30py</button>
+        <button data-filter="40">40py</button>
+      </div>
+      <div class="grid">
+        <div class="card" data-cat="30">
+          <img src="assets/역촌_하늘애아파트_1501호_(6).jpg" alt="project"/>
+          <div class="card-body">
+            <h4>역촌 하늘애 30평대</h4>
+          </div>
+        </div>
+        <div class="card" data-cat="20">
+          <img src="assets/역촌_하늘애아파트_1501호_(7).jpg" alt="project"/>
+          <div class="card-body">
+            <h4>역촌 하늘애 20평대</h4>
+          </div>
+        </div>
+        <div class="card" data-cat="40">
+          <img src="assets/역촌_하늘애아파트_1501호_(8).jpg" alt="project"/>
+          <div class="card-body">
+            <h4>역촌 하늘애 40평대</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="designers" class="section pale">
+    <div class="wrap">
+      <h3>디자이너 소개</h3>
+      <div class="team-grid">
+        <div class="team-card">
+          <h4>윤상 (팀장)</h4>
+          <p>건설사 신축 현장 인테리어 다회 참여, 한샘 상품 자문단 및 3D 홈플래너 개선분야에 기여한 디자인버프 최장 근속 디자이너. 현장 중심의 깊은 인사이트를 보유한 실무형 전문가입니다.</p>
+        </div>
+        <div class="team-card">
+          <h4>이익노 (과장)</h4>
+          <p>한샘 공식 우수 디자이너 다회 선정. 예산과 공간 조건을 조화롭게 설계하는 맞춤 디자인에 강점이 있는 실속형 디자이너입니다.</p>
+        </div>
+        <div class="team-card">
+          <h4>최차현 (대리)</h4>
+          <p>감각적인 색감과 톤 연출에 탁월한 감성형 디자이너. 디자인과 현장 모두에 애정을 가지고 섬세하게 프로젝트를 이끄는 스타일입니다.</p>
+        </div>
+        <div class="team-card">
+          <h4>성호진 (대리)</h4>
+          <p>고객의 고민을 명확한 솔루션으로 바꾸는 확신형 디자이너. 주도적이고 적극적인 자세로 고객 만족도를 높이는 데 집중합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="process" class="section">
+    <div class="wrap">
+      <h3>상담 신청</h3>
+      <form id="consultForm" class="form" name="contact" method="POST" data-netlify="true">
+        <label>성함<br/><input name="name" required></label>
+        <label>연락처<br/><input name="phone" required></label>
+        <label>주소지 (도면확인 필요)<br/><input name="address"></label>
+        <label>희망 품목 (여러개 선택 가능)<br/>
+          <div class="checkboxes">
+            <label><input type="checkbox" name="items" value="전체공사"> 전체공사</label>
+            <label><input type="checkbox" name="items" value="주방"> 주방</label>
+            <label><input type="checkbox" name="items" value="욕실"> 욕실</label>
+            <label><input type="checkbox" name="items" value="수납"> 수납</label>
+            <label><input type="checkbox" name="items" value="도배"> 도배</label>
+            <label><input type="checkbox" name="items" value="마루"> 마루</label>
+            <label><input type="checkbox" name="items" value="조명"> 조명</label>
+            <label><input type="checkbox" name="items" value="중문"> 중문</label>
+            <label><input type="checkbox" name="items" value="타일"> 타일</label>
+            <label><input type="checkbox" name="items" value="필름"> 필름</label>
+            <label><input type="checkbox" name="items" value="도장"> 도장</label>
+            <label><input type="checkbox" name="items" value="창호"> 창호</label>
+            <label><input type="checkbox" name="items" value="시스템에어컨"> 시스템에어컨</label>
+            <label><input type="checkbox" name="items" value="확장"> 확장</label>
+          </div>
+        </label>
+
+        <label>예산<br/>
+          <select name="budget">
+            <option value="">선택</option>
+            <option value="~1,000만원">~1,000만원</option>
+            <option value="1,000~3,000만원">1,000~3,000만원</option>
+            <option value="3,000~5,000만원">3,000~5,000만원</option>
+            <option value="5,000~7,000만원">5,000~7,000만원</option>
+            <option value="7,000~10,000만원">7,000~10,000만원</option>
+            <option value="10,000만원~">10,000만원~</option>
+          </select>
+        </label>
+
+        <label>희망 일정<br/><input type="date" name="date"></label>
+        <label>요청사항<br/><textarea name="notes"></textarea></label>
+
+        <div class="form-actions">
+          <button type="submit" class="btn">전송</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section id="qna" class="section pale">
+    <div class="wrap">
+      <h3>Q&amp;A</h3>
+      <div class="qa">
+        <details><summary>상담 비용은 어떻게 되나요?</summary><p>프로젝트에 따라 상이합니다. 기본 상담 후 견적 확정.</p></details>
+        <details><summary>공사 기간은 얼마나 걸리나요?</summary><p>평균 3~8주, 공사 범위에 따라 달라집니다.</p></details>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer pale">
+  <div class="wrap">
+    <div>한샘 리하우스 디자인버프 대리점</div>
+    <div>010-6245-9059 • skdidbstkd@naver.com • <a href="https://blog.naver.com/paul940125" target="_blank">네이버 블로그</a></div>
+  </div>
+</footer>
+
+<script src="form.js"></script>
+</body>
+</html>
+
+:
+:root{
+  --bg:#fbfbfb;
+  --accent:#ff9f7b;
+  --muted:#6b6b6b;
+  --wrap:1200px;
+  --radius:14px;
+  --pastel:#f7f3ff;
+}
+
+*{box-sizing:border-box}
+body{font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",Helvetica,Arial; margin:0; background:var(--bg); color:#222}
+.wrap{max-width:var(--wrap); margin:0 auto; padding:0 20px}
+.site-header{background:#fff; border-bottom:1px solid #eee; position:sticky; top:0; z-index:40}
+.site-header .wrap{display:flex; align-items:center; justify-content:space-between; height:72px}
+.logo{height:40px}
+.nav a{margin:0 10px; color:#333; text-decoration:none; font-weight:600}
+.btn{background:var(--accent); color:white; border:none; padding:10px 16px; border-radius:8px; cursor:pointer}
+.hero{height:60vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden}
+.slideshow{position:absolute; inset:0; display:flex}
+.slide{flex:1; background-size:cover; background-position:center; filter:brightness(0.7); min-width:100%}
+.overlay{position:relative; z-index:2; text-align:center; color:#fff; padding:20px}
+.overlay h2{font-size:36px; margin:0 0 8px}
+.section{padding:60px 0}
+.section.pale{background:var(--pastel)}
+h3{font-size:22px; margin-bottom:8px}
+.lead{color:var(--muted); margin-bottom:20px}
+.filters{margin-bottom:20px}
+.filters button{margin-right:8px; padding:8px 12px; border-radius:8px; border:1px solid #eee; background:white; cursor:pointer}
+.filters button.active{background:#fff0e8; border-color:var(--accent)}
+.grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+.card{background:white; border-radius:12px; overflow:hidden; box-shadow:0 6px 18px rgba(30,30,30,0.06)}
+.card img{width:100%; height:220px; object-fit:cover; display:block}
+.card-body{padding:12px}
+.team-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px}
+.team-card{background:white; padding:16px; border-radius:12px; box-shadow:0 6px 12px rgba(30,30,30,0.06)}
+.team-card h4{margin:0 0 8px; font-size:16px}
+.team-card p{font-size:14px; line-height:1.7; color:#444}
+.form label{display:block; margin-bottom:12px}
+.form input,.form textarea,.form select{width:100%; padding:10px; border:1px solid #e6e6e6; border-radius:8px}
+.form .checkboxes label{display:inline-block; margin-right:8px; margin-bottom:6px}
+.form-actions{margin-top:16px}
+.site-footer{padding:20px 0; font-size:14px; color:var(--muted)}
+.sr-only{position:absolute; left:-9999px}
+.logo-link{display:inline-block}
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:1fr 1fr}
+  .wrap{padding:0 14px}
+  .overlay h2{font-size:26px}
+  .team-card p{font-size:13px}
+}
+
+
+document.getElementById('cta').addEventListener('click', function(){ document.getElementById('consultForm').scrollIntoView({behavior:'smooth'}); });
+document.getElementById('hero-cta').addEventListener('click', function(){ document.getElementById('consultForm').scrollIntoView({behavior:'smooth'}); });
+
+(function ensureHidden(){ 
+  const f = document.getElementById('consultForm');
+  if (!f.querySelector('input[name="form-name"]')) {
+    const hidden = document.createElement('input');
+    hidden.type = 'hidden';
+    hidden.name = 'form-name';
+    hidden.value = 'contact';
+    f.prepend(hidden);
+  }
+})();
+
+let idx=0;
+const slides = document.querySelectorAll('.slide');
+slides.forEach((s,i)=> s.style.transform = `translateX(${i*100}%)`);
+setInterval(()=>{
+  idx = (idx+1)%slides.length;
+  slides.forEach((s,i)=> s.style.transform = `translateX(${(i-idx)*100}%)`);
+},3500);
