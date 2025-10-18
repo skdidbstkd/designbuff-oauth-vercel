@@ -1,7 +1,7 @@
-// 런타임 고정
-export const config = { runtime: 'nodejs18.x' };
+// ✅ Vercel 런타임 지정 (허용값: 'nodejs')
+export const config = { runtime: 'nodejs' };
 
-// /api/auth : Decap이 ?provider=github&site_id=skdidbstkd.github.io 형태로 호출
+// /api/auth : Decap이 ?provider=github&site_id=... 형태로 호출
 export default async function handler(req, res) {
   try {
     const clientId = process.env.GITHUB_CLIENT_ID;
@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
     if (!clientId) return res.status(500).send("Missing GITHUB_CLIENT_ID");
 
-    // 1) site_id 파라미터(예: skdidbstkd.github.io) → https:// 붙여 origin 추정
+    // 1) site_id → https:// 붙여 origin 추정
     let origin = req.query.site_id ? `https://${req.query.site_id}` : "";
 
     // 2) 없으면 Referer/Origin 헤더에서 추정
@@ -19,7 +19,6 @@ export default async function handler(req, res) {
       try { origin = new URL(ref).origin; } catch {}
     }
 
-    // 최종 검증
     if (!origin) return res.status(400).send("Origin not detected");
     const ok = allowed.some(a => origin.startsWith(a));
     if (!ok) return res.status(400).send("Origin not allowed");
@@ -31,8 +30,7 @@ export default async function handler(req, res) {
     url.searchParams.set("client_id", clientId);
     url.searchParams.set("redirect_uri", redirectUri);
     url.searchParams.set("scope", "repo,user");
-    // postMessage 대상으로 쓸 origin을 state에 보관
-    url.searchParams.set("state", encodeURIComponent(origin));
+    url.searchParams.set("state", encodeURIComponent(origin)); // CMS postMessage 대상
 
     res.writeHead(302, { Location: url.toString() });
     res.end();
