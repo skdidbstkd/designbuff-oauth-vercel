@@ -1,7 +1,7 @@
-// Vercel에 Node 런타임 강제
-export const config = { runtime: 'nodejs18.x' };
+// ✅ Vercel 런타임 지정 (허용값: 'nodejs')
+export const config = { runtime: 'nodejs' };
 
-// /api/callback (GitHub가 code를 주는 곳 → 토큰 교환 → CMS에 토큰 전달)
+// /api/callback : code → access_token 교환 후 CMS로 토큰 전달
 export default async function handler(req, res) {
   try {
     const clientId = process.env.GITHUB_CLIENT_ID;
@@ -10,10 +10,9 @@ export default async function handler(req, res) {
       return res.status(500).send("Missing client env vars");
 
     const code = req.query.code;
-    const state = decodeURIComponent(req.query.state || ""); // 우리가 origin 넣어둔 값
+    const state = decodeURIComponent(req.query.state || ""); // origin
     if (!code || !state) return res.status(400).send("Missing code/state");
 
-    // Node18+ 는 fetch 내장
     const tokenResp = await fetch("https://github.com/login/oauth/access_token", {
       method: "POST",
       headers: { "Accept": "application/json", "Content-Type": "application/json" },
@@ -32,7 +31,6 @@ export default async function handler(req, res) {
       return res.status(500).send("Token exchange failed");
     }
 
-    // CMS에게 토큰을 postMessage로 전달
     const html = `
 <!doctype html><html><body>
 <script>
