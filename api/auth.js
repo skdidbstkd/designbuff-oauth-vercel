@@ -1,28 +1,19 @@
 // api/auth.js
-// 로그인 시작: GitHub OAuth로 이동
+// GitHub OAuth 시작: redirect_uri 미사용(앱에 등록된 콜백만 사용)
 
 const CLIENT_ID =
-  process.env.OAUTH_CLIENT_ID || process.env.GITHUB_CLIENT_ID || '';
+  process.env.GITHUB_CLIENT_ID || process.env.OAUTH_CLIENT_ID || '';
 const BASE_URL = process.env.PUBLIC_BASE_URL || '';
 
 export default function handler(req, res) {
-  if (!CLIENT_ID || !BASE_URL) {
-    res
-      .status(500)
-      .send(
-        `<!doctype html><pre>Missing ENV:
-CLIENT_ID=${CLIENT_ID ? 'OK' : 'MISSING'}
-BASE_URL=${BASE_URL ? 'OK' : 'MISSING'}
-</pre>`
-      );
+  if (!CLIENT_ID) {
+    res.status(500).send('<pre>Missing ENV: GITHUB_CLIENT_ID / OAUTH_CLIENT_ID</pre>');
     return;
   }
 
-  const REDIRECT_URI = `${BASE_URL}/api/callback`;
-
   const url = new URL('https://github.com/login/oauth/authorize');
   url.searchParams.set('client_id', CLIENT_ID);
-  url.searchParams.set('redirect_uri', REDIRECT_URI);
+  // redirect_uri는 절대 넣지 않음 (등록된 콜백만 사용)
   url.searchParams.set('scope', 'repo,user:email');
   url.searchParams.set('allow_signup', 'false');
 
