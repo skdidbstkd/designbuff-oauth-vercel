@@ -1,8 +1,17 @@
 // api/auth.js
-// ✅ 런타임 강제 지정 라인 제거 (기존: export const config = { runtime: 'nodejs' }; )
+// GitHub 로그인 페이지로 리다이렉트 (Decap CMS의 "Login with GitHub" 버튼이 이 엔드포인트를 팝업으로 엶)
 
-export default async function handler(req, res) {
-  // 최소 동작: 서버리스 함수가 200을 즉시 반환 (배포 확인용)
-  // 필요한 경우 여기에 Decap OAuth 프록시 로직을 붙이면 됩니다.
-  res.status(200).json({ ok: true, path: "/api/auth" });
+const CLIENT_ID = process.env.OAUTH_CLIENT_ID;
+const BASE_URL = process.env.PUBLIC_BASE_URL; // 예: https://designbuff-oauth-vercel.vercel.app
+const REDIRECT_URI = `${BASE_URL}/api/callback`;
+
+export default function handler(req, res) {
+  const url = new URL('https://github.com/login/oauth/authorize');
+  url.searchParams.set('client_id', CLIENT_ID);
+  url.searchParams.set('redirect_uri', REDIRECT_URI);
+  url.searchParams.set('scope', 'repo,user:email');
+  url.searchParams.set('allow_signup', 'false');
+
+  res.setHeader('Cache-Control', 'no-store');
+  res.redirect(url.toString());
 }
