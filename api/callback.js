@@ -1,55 +1,57 @@
-// ✅ Vercel 런타임 지정 (허용값: 'nodejs')
-export const config = { runtime: 'nodejs' };
+// api/callback.js
+// GitHub가 code를 넘겨주면 access_token으로 교환하고,
+// 팝업 창 안에서 부모 창(Decap CMS)으로 token을 postMessage로 전달한 뒤 팝업을 닫음.
 
-// /api/callback : code → access_token 교환 후 CMS로 토큰 전달
+const CLIENT_ID = process.env.OAUTH_CLIENT_ID;
+const CLIENT_SECRET = process.env.OAUTH_CLIENT_SECRET;
+const BASE_URL = process.env.PUBLIC_BASE_URL;
+const REDIRECT_URI = `${BASE_URL}/api/callback`;
+
 export default async function handler(req, res) {
+  const { code } = req.query || {};
+  if (!code) {
+    res.status(400).send('Missing "code"');
+    return;
+  }
+
   try {
-    const clientId = process.env.GITHUB_CLIENT_ID;
-    const clientSecret = process.env.GITHUB_CLIENT_SECRET;
-    if (!clientId || !clientSecret)
-      return res.status(500).send("Missing client env vars");
-
-    const code = req.query.code;
-    const state = decodeURIComponent(req.query.state || ""); // origin
-    if (!code || !state) return res.status(400).send("Missing code/state");
-
-    const tokenResp = await fetch("https://github.com/login/oauth/access_token", {
-      method: "POST",
-      headers: { "Accept": "application/json", "Content-Type": "application/json" },
-      body: JSON.stringify({
-        client_id: clientId,
-        client_secret: clientSecret,
-        code,
-        redirect_uri: `https://${req.headers.host}/api/callback`
-      })
+    const tokenRes = await fetch('https://github.com/login/oauth/access_token', {
+      method: 'POST',
+      headers: { Accept: 'application/json' },
+      body: new URLSearchParams({
+        client_id: CLIENT_ID,
+        client_secret: CLIENT_SECRET,
+        code: String(code),
+        redirect_uri: REDIRECT_URI,
+      }),
     });
 
-    const data = await tokenResp.json();
-    const token = data.access_token;
-    if (!token) {
-      console.error("Token exchange failed:", data);
-      return res.status(500).send("Token exchange failed");
-    }
+    const data = await tokenRes.json();
+    const token = data && data.access_token ? String(data.access_token) : '';
 
-    const html = `
-<!doctype html><html><body>
-<script>
-  (function(){
-    var origin = ${JSON.stringify(state)};
-    var token  = ${JSON.stringify(token)};
-    window.opener && window.opener.postMessage(
-      'authorization:github:success:' + token,
-      '*'
-    );
-    window.close();
-  })();
-</script>
-인증 처리 중…
-</body></html>`;
-    res.setHeader("Content-Type", "text/html; charset=utf-8");
-    res.end(html);
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    // Decap CMS가 기대하는 형식: 팝업에서 parent로 { token } 또는 { error }를 postMessage
+    res.send(`<!doctype html><html><body><script>
+      (function () {
+        function send(msg) {
+          try { window.opener.postMessage(msg, "${BASE_URL}"); } catch (e) {}
+          window.close();
+        }
+        var token = ${JSON.stringify(token)};
+        if (token) {
+          send({ token: token });
+        } else {
+          send({ error: 'no_token' });
+        }
+      })();
+    </script></body></html>`);
   } catch (e) {
-    console.error(e);
-    res.status(500).send("callback error");
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.status(500).send(\`<!doctype html><html><body><script>
+      (function () {
+        try { window.opener.postMessage({ error: 'exchange_failed' }, "${BASE_URL}"); } catch (e) {}
+        window.close();
+      })();
+    </script></body></html>\`);
   }
 }
