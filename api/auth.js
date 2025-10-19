@@ -1,6 +1,6 @@
 // api/auth.js
 // ❗임시 확정안: 환경변수 무시하고 직접 값을 사용 (나중에 원복 가능)
-const OVERRIDE_CLIENT_ID = 'PASTE_CLIENT_ID_HERE'; // ← 여기에 GitHub OAuth App의 Client ID 그대로 붙여넣기
+const OVERRIDE_CLIENT_ID = '5a260ebcdcbdeccdca728a56f5af37f7b92f014d'; // ← 여기에 GitHub OAuth App의 Client ID 그대로 붙여넣기
 
 export default function handler(req, res) {
   const CLIENT_ID = OVERRIDE_CLIENT_ID.trim();
