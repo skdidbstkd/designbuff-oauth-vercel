@@ -1,10 +1,9 @@
 // api/callback.js
-// code -> access_token 교환 (redirect_uri 반드시 동일하게 보냄)
-// 결과가 실패하면 창을 닫지 않고 JSON을 표시하므로 캡처 가능
+// code -> access_token 교환. 실패 시 팝업을 닫지 않고 JSON을 그대로 보여줌.
 
-const CLIENT_ID = process.env.GITHUB_CLIENT_ID || process.env.OAUTH_CLIENT_ID || '';
+const CLIENT_ID     = process.env.GITHUB_CLIENT_ID || process.env.OAUTH_CLIENT_ID || '';
 const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET || process.env.OAUTH_CLIENT_SECRET || '';
-const BASE_URL = process.env.PUBLIC_BASE_URL || '';
+const BASE_URL      = process.env.PUBLIC_BASE_URL || '';
 
 function show(obj) {
   return `<!doctype html><html><body>
@@ -15,10 +14,10 @@ function show(obj) {
 
 export default async function handler(req, res) {
   const code = req.query && req.query.code ? String(req.query.code) : '';
-  if (!code) return res.status(400).send(show({ error: 'missing_code' }));
-  if (!CLIENT_ID) return res.status(500).send(show({ error: 'missing_client_id' }));
+  if (!code)        return res.status(400).send(show({ error: 'missing_code' }));
+  if (!CLIENT_ID)   return res.status(500).send(show({ error: 'missing_client_id' }));
   if (!CLIENT_SECRET) return res.status(500).send(show({ error: 'missing_client_secret' }));
-  if (!BASE_URL) return res.status(500).send(show({ error: 'missing_base_url' }));
+  if (!BASE_URL)    return res.status(500).send(show({ error: 'missing_base_url' }));
 
   const REDIRECT_URI = `${BASE_URL}/api/callback`;
 
@@ -33,7 +32,6 @@ export default async function handler(req, res) {
         redirect_uri: REDIRECT_URI
       })
     });
-
     const data = await tokenRes.json();
 
     if (!tokenRes.ok || data.error) {
@@ -41,16 +39,15 @@ export default async function handler(req, res) {
         error: 'token_exchange_failed',
         status: tokenRes.status,
         data,
-        used_client_id_preview: CLIENT_ID.slice(0,6) + '…'
+        used_client_id_preview: CLIENT_ID ? CLIENT_ID.slice(0,6) + '…' : null,
+        redirect_uri_used: REDIRECT_URI
       }));
     }
 
     const token = data.access_token || '';
-    if (!token) {
-      return res.status(500).send(show({ error: 'no_token', data }));
-    }
+    if (!token) return res.status(500).send(show({ error: 'no_token', data }));
 
-    // 성공: Decap(부모창)으로 token 전달하고 창 닫기
+    // 성공: 부모창으로 token 전달 후 닫기
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.send(`<!doctype html><html><body><script>
       (function () {
