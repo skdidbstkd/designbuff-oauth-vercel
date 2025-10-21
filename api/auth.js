@@ -1,6 +1,6 @@
 // api/auth.js
 // 고정값 + state 추가 + 디버그 모드 포함
-const CLIENT_ID    = 'Ov23lid0IgXxoORNT2v8';
+const CLIENT_ID    = 'Ov23lieKCsdnNIBAplLZ';
 const REDIRECT_URI = 'https://designbuff-oauth-vercel.vercel.app/api/callback';
 
 function json(res, obj, code = 200) {
