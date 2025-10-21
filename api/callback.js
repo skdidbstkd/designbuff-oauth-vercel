@@ -2,7 +2,7 @@
 // 하드코딩된 CLIENT_ID/REDIRECT_URI + ENV의 SECRET(공백 제거)
 // 정석 헤더로 교환 + state 검증(있으면 통과) + 진단 정보 표시
 
-const CLIENT_ID     = 'Ov23lid0IgXxoORNT2v8';
+const CLIENT_ID     = 'Ov23lieKCsdnNIBAplLZ';
 const REDIRECT_URI  = 'https://designbuff-oauth-vercel.vercel.app/api/callback';
 const RAW_SECRET    = process.env.GITHUB_CLIENT_SECRET || '';
 const CLIENT_SECRET = RAW_SECRET.trim(); // 앞뒤 공백 제거
