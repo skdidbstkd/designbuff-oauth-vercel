@@ -24,7 +24,6 @@ export default function handler(req, res){
 
   const url = new URL('https://github.com/login/oauth/authorize');
   url.searchParams.set('client_id', CLIENT_ID);
-  url.searchParams.set('redirect_uri', REDIRECT_URI);
   url.searchParams.set('scope', 'repo,user:email');
   url.searchParams.set('allow_signup', 'false');
   url.searchParams.set('state', state);
